@@ -1,29 +1,45 @@
 # vue-flask-spa
+Vue.jsとFlaskを使用したSPAプロジェクトテンプレート。
 
-## Project setup
-```
-yarn install
-```
+# 必要ツール
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+- [Vue-CLI](https://cli.vuejs.org/)
+- [pipenv](https://pipenv-ja.readthedocs.io/ja/translate-ja/)
 
-### Compiles and minifies for production
-```
-yarn run build
+## 開発環境
+開発時はフロントエンド側で開発サーバーを起動することで、ホットリロードが有効になります。
+
+```yarn
+yarn serve
 ```
 
-### Run your tests
-```
-yarn run test
+バックエンド側Flaskは以下のコマンドで開発用サーバーで起動します。
+
+```python
+py run.py
 ```
 
-### Lints and fixes files
+開発時、フロントエンドサーバーからバックエンドサーバーへのAPIはvue.configの設定でflaskの5000ポートへプロキシさせています。
+
 ```
-yarn run lint
+    proxy: {
+      "/api*": {
+        // /パスが /api～ のrequestはflaskへ転送させる
+        target: "http://127.0.0.1:5000/"
+      }
+    }
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## プロダクション環境
+プロダクション環境として、herokuを想定してデプロイする手順です。
+
+herokuプロジェクトのSettingsの「Buildpacks」で`node.js`と`python`を追加しておきます。
+
+package.jsonに下記のコマンドを追記しているため、herokuへデプロイした際に、vueの依存ライブラリがインストールされた後にビルドまでされます。  
+その後に`Pipfile`の依存ライブラリがインストールされて`Procfile`に従って、web dynoでgunicornが起動します。
+
+```
+  "postinstall": "yarn build"
+```
+
+※つまるところ、herokuへデプロイするだけでOKです。
