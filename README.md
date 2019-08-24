@@ -1,10 +1,22 @@
 # vue-flask-spa
 Vue.jsとFlaskを使用したSPAプロジェクトテンプレート。
 
-# 必要ツール
+## 必要ツール
 
 - [Vue-CLI](https://cli.vuejs.org/)
 - [pipenv](https://pipenv-ja.readthedocs.io/ja/translate-ja/)
+
+## セットアップ
+
+```
+git clone https://github.com/kiysi/vue-flask-spa.git
+
+cd vue-flask-spa
+
+pipenv install
+
+yarn install
+```
 
 ## 開発環境
 開発時はフロントエンド側で開発サーバーを起動することで、ホットリロードが有効になります。
